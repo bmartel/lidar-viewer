@@ -19,7 +19,7 @@ potree.pointBudget = 2_000_000;
 let pointClouds: PointCloudOctree[] = [];
 const publicPath = window.location.href;
 
-function init(node: HTMLElement, url: string) {
+async function init(node: HTMLElement, url: string) {
   let baseUrl: string;
 
   const metaFileName = url.split("/").pop();
@@ -63,7 +63,7 @@ function init(node: HTMLElement, url: string) {
 
   // scene.add(new THREE.AxesHelper(1));
 
-  potree
+  await potree
     .loadPointCloud(
       // The name of the point cloud which is to be loaded.
       metaFileName,
@@ -85,8 +85,7 @@ function init(node: HTMLElement, url: string) {
       gui.add(pco.material, "size", 0.001, 4).onChange(render);
       // gui.addColor(pco.material, "color").onChange(render);
       gui.open();
-    })
-    .then(render);
+    });
   //const loader = new PCDLoader();
   //loader.load("/data/nalls_pumpkin_hill.pcd", function (points: any) {
   //  points.geometry.center();
@@ -134,7 +133,7 @@ export function PointCloudData({ url }: { url: string }) {
   const ref = useRef<HTMLDivElement>(null!);
 
   useEffect(() => {
-    init(ref.current, url);
+    init(ref.current, url).then(render);
     return () => {
       destroy();
     };
