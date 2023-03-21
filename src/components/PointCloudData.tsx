@@ -99,7 +99,7 @@ async function init(node: HTMLElement, url: string) {
 
   // render();
   // });
-
+  setTimeout(onWindowResize, 10);
   window.addEventListener("resize", onWindowResize);
 }
 
